@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proj_1/components/my_text_field.dart';
 import 'package:flutter_proj_1/models/item.dart' as model;
-import 'package:flutter_proj_1/services/item_service.dart';
+import 'package:flutter_proj_1/providers/item_provider.dart';
+import 'package:provider/provider.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({this.newItem = true, required this.item});
@@ -107,11 +108,11 @@ class _AddScreenState extends State<AddScreen> {
                         image: imageController.text.trim(),
                         description: descriptionController.text.trim(),
                       );
-
+                      final provider = context.read<ItemProvider>();
                       if (widget.newItem) {
-                        await ItemService().createItem(newOrUpdatedItem);
+                        await provider.addItem(newOrUpdatedItem);
                       } else {
-                        await ItemService().updateItem(newOrUpdatedItem);
+                        await provider.updateItem(newOrUpdatedItem);
                       }
 
                       if (context.mounted) {

@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proj_1/screens/add_screen.dart';
 import 'package:flutter_proj_1/models/item.dart' as model;
-import '../services/item_service.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_proj_1/providers/item_provider.dart';
 
 class Item extends StatelessWidget {
-  const Item({
-    required this.item,
-    required this.onDelete,
-    required this.onUpdate,
-  });
+  const Item({required this.item});
 
   final model.Item item;
-  final Function onDelete;
-  final Function onUpdate;
 
   Future delete(BuildContext context) async {
     final confirmed =
@@ -40,8 +35,7 @@ class Item extends StatelessWidget {
         ) ??
         false;
     if (confirmed) {
-      await ItemService().deleteItem(item.id);
-      onDelete();
+      if (context.mounted) context.read<ItemProvider>().deleteItem(item.id!);
     }
   }
 
@@ -52,8 +46,8 @@ class Item extends StatelessWidget {
         builder: (context) => AddScreen(newItem: false, item: item),
       ),
     );
-    if (result != null) {
-      onUpdate();
+    if (result != null && result != item) {
+      if (context.mounted) context.read<ItemProvider>().updateItem(result);
     }
   }
 

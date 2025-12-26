@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proj_1/components/item.dart';
 import 'package:flutter_proj_1/screens/add_screen.dart';
-import '../services/item_service.dart';
 import '../models/item.dart' as model;
+import 'package:provider/provider.dart';
+import 'package:flutter_proj_1/providers/item_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,58 +11,38 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<model.Item>> itemsList;
-
-  void _refresh() {
-    setState(() {
-      ItemService().fetchItems();
-    });
+  @override
+  void initState() {
+    super.initState();
+    context.read<ItemProvider>().fetchItems();
   }
 
-  Widget buildItems(
-    BuildContext context,
-    AsyncSnapshot<List<model.Item>> snapshot,
-  ) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return const Center(child: CircularProgressIndicator());
-    } else if (snapshot.hasError) {
-      return Center(child: Text('Error: ${snapshot.error}'));
-    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-      return const Center(child: Text('No items found.'));
+  @override
+  Widget build(BuildContext context) {
+    final provider = context.watch<ItemProvider>();
+
+    Widget body;
+    if (provider.isLoading) {
+      body = const Center(child: CircularProgressIndicator());
+    } else if (provider.error != null) {
+      body = Center(child: Text('Error: ${provider.error}'));
+    } else if (provider.items.isEmpty) {
+      body = const Center(child: Text('No items found.'));
     } else {
-      final items = snapshot.data!;
-      return GridView.builder(
+      body = GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 1 / 2,
           crossAxisCount: 2,
           crossAxisSpacing: 8.0,
           mainAxisSpacing: 8.0,
         ),
-        itemCount: items.length,
+        itemCount: provider.items.length,
         itemBuilder: (context, index) {
-          final item = items[index];
-          return Item(
-            item: item,
-            onDelete: () {
-              _refresh();
-            },
-            onUpdate: () {
-              _refresh();
-            },
-          );
+          return Item(item: provider.items[index]);
         },
       );
     }
-  }
 
-  @override
-  void initState() {
-    super.initState();
-    itemsList = ItemService().fetchItems();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[350],
       appBar: AppBar(
@@ -69,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.refresh), // the icon you want
             onPressed: () {
-              _refresh();
+              provider.fetchItems();
             },
           ),
         ],
@@ -88,24 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context) =>
                   AddScreen(newItem: true, item: model.Item.emptyItem()),
             ),
-          ).then((result) {
-            if (result == true) {
-              _refresh();
-            }
-          });
+          );
         },
         child: const Icon(Icons.add),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: FutureBuilder<List<model.Item>>(
-            future: itemsList,
-            builder: (context, snapshot) {
-              return buildItems(context, snapshot);
-            },
-          ),
-        ),
+        child: Padding(padding: EdgeInsets.all(8.0), child: body),
       ),
     );
   }
