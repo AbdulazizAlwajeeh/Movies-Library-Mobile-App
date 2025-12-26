@@ -46,7 +46,8 @@ class ItemProvider extends ChangeNotifier {
   Future<void> updateItem(Item item) async {
     await _runWithLoading(() async {
       await _service.updateItem(item);
-      _items[item.id!] = item;
+      int index = _items.indexWhere((element) => element.id == item.id);
+      _items[index] = item;
     });
   }
 

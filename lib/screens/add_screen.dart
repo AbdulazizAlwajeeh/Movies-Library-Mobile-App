@@ -72,10 +72,8 @@ class _AddScreenState extends State<AddScreen> {
                 ),
                 MyTextField(
                   validator: (value) {
-                    if (value == null ||
-                        value.trim().isEmpty ||
-                        value.length < 100) {
-                      return 'Image URL is required (At least 100 chars)';
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Image URL is required';
                     }
                     return null;
                   },
@@ -87,8 +85,10 @@ class _AddScreenState extends State<AddScreen> {
                 ),
                 MyTextField(
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Description is required';
+                    if (value == null ||
+                        value.trim().isEmpty ||
+                        value.length < 100) {
+                      return 'Description is required (At least 100 chars)';
                     }
                     return null;
                   },
@@ -116,7 +116,7 @@ class _AddScreenState extends State<AddScreen> {
                       }
 
                       if (context.mounted) {
-                        Navigator.pop(context, newOrUpdatedItem);
+                        Navigator.pop(context);
                       }
                     }
                   },

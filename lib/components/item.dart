@@ -40,15 +40,12 @@ class Item extends StatelessWidget {
   }
 
   Future update(BuildContext context) async {
-    final result = await Navigator.push<model.Item?>(
+    await Navigator.push<model.Item?>(
       context,
       MaterialPageRoute(
         builder: (context) => AddScreen(newItem: false, item: item),
       ),
     );
-    if (result != null && result != item) {
-      if (context.mounted) context.read<ItemProvider>().updateItem(result);
-    }
   }
 
   @override
