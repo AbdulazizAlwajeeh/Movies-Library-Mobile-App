@@ -4,12 +4,7 @@ import 'package:flutter_proj_1/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => ItemProvider()..fetchItems(),
-      child: IMDB(),
-    ),
-  );
+  runApp(ChangeNotifierProvider(create: (_) => ItemProvider(), child: IMDB()));
 }
 
 class IMDB extends StatelessWidget {

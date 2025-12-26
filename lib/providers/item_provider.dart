@@ -39,21 +39,21 @@ class ItemProvider extends ChangeNotifier {
   Future<void> addItem(Item item) async {
     await _runWithLoading(() async {
       await _service.createItem(item);
-      _items = await _service.fetchItems();
+      _items.add(item);
     });
   }
 
   Future<void> updateItem(Item item) async {
     await _runWithLoading(() async {
       await _service.updateItem(item);
-      _items = await _service.fetchItems();
+      _items[item.id!] = item;
     });
   }
 
   Future<void> deleteItem(int id) async {
     await _runWithLoading(() async {
       await _service.deleteItem(id);
-      _items = await _service.fetchItems();
+      _items.removeWhere((item) => item.id == id);
     });
   }
 }
