@@ -1,1 +1,2 @@
-I started the project as simple as possible, now I am adding state management (Provider) for practice + scalability.
+main: Started the project as simple as possible.
+state-management-version: Adding state management (Provider) for practice + scalability.
