@@ -1,52 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_proj_1/screens/add_screen.dart';
 import 'package:flutter_proj_1/models/item.dart' as model;
-import 'package:provider/provider.dart';
-import 'package:flutter_proj_1/providers/item_provider.dart';
+import '../use_cases/item_actions.dart';
 
 class Item extends StatelessWidget {
-  const Item({required this.item});
+  const Item({
+    required this.item,
+    required this.actions,
+    this.modifiable = true,
+  });
 
   final model.Item item;
-
-  Future delete(BuildContext context) async {
-    final confirmed =
-        await showDialog<bool>(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Confirm Delete'),
-              content: const Text('Are you sure you want to delete this?'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: const Text('Cancel'),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: const Text(
-                    'Delete',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-              ],
-            );
-          },
-        ) ??
-        false;
-    if (confirmed) {
-      if (context.mounted) context.read<ItemProvider>().deleteItem(item.id!);
-    }
-  }
-
-  Future update(BuildContext context) async {
-    await Navigator.push<model.Item?>(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddScreen(newItem: false, item: item),
-      ),
-    );
-  }
+  final bool modifiable;
+  final Map<ItemActionType, ItemAction> actions;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +48,10 @@ class Item extends StatelessWidget {
                     iconColor: Colors.white,
                   ),
                   onPressed: () {
-                    delete(context);
+                    final action = !modifiable
+                        ? actions[ItemActionType.login]
+                        : actions[ItemActionType.delete];
+                    action?.call(context, item);
                   },
                   child: const Icon(Icons.delete_forever),
                 ),
@@ -95,7 +63,10 @@ class Item extends StatelessWidget {
                     backgroundColor: Colors.amber,
                   ),
                   onPressed: () {
-                    update(context);
+                    final action = !modifiable
+                        ? actions[ItemActionType.login]
+                        : actions[ItemActionType.update];
+                    action?.call(context, item);
                   },
                   child: const Icon(Icons.edit_note),
                 ),

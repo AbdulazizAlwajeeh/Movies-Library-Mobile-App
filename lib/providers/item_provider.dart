@@ -3,7 +3,8 @@ import '../models/item.dart';
 import '../services/item_service.dart';
 
 class ItemProvider extends ChangeNotifier {
-  final ItemService _service = ItemService();
+  ItemProvider({required ItemService service}) : _service = service;
+  final ItemService _service;
 
   List<Item> _items = [];
   bool _isLoading = false;
@@ -15,15 +16,15 @@ class ItemProvider extends ChangeNotifier {
 
   String? get error => _error;
 
-  Future<void> _runWithLoading(Future<void> Function() action) async {
+  Future<bool> _runWithLoading(Future<void> Function() action) async {
     _isLoading = true;
     notifyListeners();
 
     try {
       await action();
-      _error = null;
+      return true;
     } catch (e) {
-      _error = e.toString();
+      return false;
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -43,16 +44,16 @@ class ItemProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> updateItem(Item item) async {
-    await _runWithLoading(() async {
+  Future<bool> updateItem(Item item) async {
+    return await _runWithLoading(() async {
       await _service.updateItem(item);
       int index = _items.indexWhere((element) => element.id == item.id);
       _items[index] = item;
     });
   }
 
-  Future<void> deleteItem(int id) async {
-    await _runWithLoading(() async {
+  Future<bool> deleteItem(int id) async {
+    return await _runWithLoading(() async {
       await _service.deleteItem(id);
       _items.removeWhere((item) => item.id == id);
     });
