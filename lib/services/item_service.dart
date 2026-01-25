@@ -3,9 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/item.dart';
 
 class ItemService {
-  static const String baseUrl =
-      'https://mymvcapp-a8dmapgrakfhf2f6'
-      '.canadacentral-01.azurewebsites.net/api/Movies';
+  static const String baseUrl = 'http://16.171.43.166/api/Movies';
 
   Future<List<Item>> fetchItems() async {
     final response = await http.get(Uri.parse(baseUrl));
@@ -30,7 +28,7 @@ class ItemService {
     }
   }
 
-  Future<Item?> createItem(Item item) async {
+  Future<Item> createItem(Item item) async {
     final response = await http.post(
       Uri.parse(baseUrl),
       headers: {'Content-Type': 'application/json'},
@@ -41,28 +39,26 @@ class ItemService {
       return Item.fromJson(jsonDecode(response.body));
     }
 
-    return null;
+    throw Exception('Item Creation Failed.');
   }
 
-  Future<Item?> updateItem(Item item) async {
+  Future<void> updateItem(Item item) async {
     final response = await http.put(
       Uri.parse('$baseUrl/${item.id}'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(item.toJson()),
     );
 
-    if (response.statusCode == 204) {
-      return item;
+    if (response.statusCode != 204) {
+      throw Exception('Item Update Failed.');
     }
-    return null;
   }
 
-  Future<Item?> deleteItem(int? id) async {
+  Future<void> deleteItem(int id) async {
     final response = await http.delete(Uri.parse('$baseUrl/$id'));
 
-    if (response.statusCode == 204) {
-      return null;
+    if (response.statusCode != 204) {
+      throw Exception('Item Deletion Failed.');
     }
-    return null;
   }
 }
