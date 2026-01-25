@@ -40,7 +40,7 @@ class _AddScreenState extends State<AddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<ItemProvider>();
+    final isLoading = context.select<ItemProvider, bool>((p) => p.isLoading);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -141,7 +141,7 @@ class _AddScreenState extends State<AddScreen> {
               ),
             ),
           ),
-          if (provider.isLoading)
+          if (isLoading)
             Positioned.fill(
               child: AbsorbPointer(
                 child: Container(

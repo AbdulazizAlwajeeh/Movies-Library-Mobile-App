@@ -5,19 +5,25 @@ class MyTextField extends StatelessWidget {
     required this.validator,
     required this.label,
     required this.hint,
-    required this.controller,
+    this.controller,
+    this.obscureText = false,
+    this.onChanged,
   });
 
   final String label;
   final String hint;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String? Function(String? value)? validator;
+  final bool obscureText;
+  final void Function(String value)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsetsGeometry.only(bottom: 7),
       child: TextFormField(
+        onChanged: onChanged,
+        obscureText: obscureText,
         validator: validator,
         controller: controller,
         decoration: InputDecoration(
