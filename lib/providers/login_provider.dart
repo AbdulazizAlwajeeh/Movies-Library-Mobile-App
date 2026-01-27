@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proj_1/models/token.dart';
 import '../models/login_result.dart';
 import '../services/login_service.dart';
 
@@ -7,8 +8,11 @@ class LoginProvider extends ChangeNotifier {
 
   final LoginService _service;
 
+  Token? _token;
   bool _isLoading = false;
   bool _isLoggedIn = false;
+
+  String get token => _token?.token ?? '';
 
   bool get isLoading => _isLoading;
 
@@ -16,9 +20,11 @@ class LoginProvider extends ChangeNotifier {
 
   Future<void> init() async {
     final tokenData = _service.getStoredToken();
-
-    _isLoggedIn = tokenData != null && !tokenData.isExpired;
-    notifyListeners();
+    if (tokenData != null && !tokenData.isExpired) {
+      _token = tokenData;
+      _isLoggedIn = true;
+      notifyListeners();
+    }
   }
 
   Future<LoginStatus> login(String username, String password) async {
@@ -29,7 +35,10 @@ class LoginProvider extends ChangeNotifier {
 
     _isLoading = false;
 
-    _isLoggedIn = result.status == LoginStatus.success;
+    if (result.status == LoginStatus.success) {
+      _token = _service.getStoredToken();
+      _isLoggedIn = true;
+    }
     notifyListeners();
 
     return result.status;
@@ -40,6 +49,7 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
 
     await _service.clearToken();
+    _token = null;
     _isLoggedIn = false;
 
     _isLoading = false;

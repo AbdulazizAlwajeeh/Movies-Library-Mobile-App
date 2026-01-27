@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proj_1/models/item.dart' as model;
 import 'package:provider/provider.dart';
+import '../main.dart';
 import '../providers/item_provider.dart';
 import '../screens/add_screen.dart';
 import '../screens/login_screen.dart';
@@ -38,9 +39,16 @@ class ItemActions {
           },
         ) ??
         false;
-    if (confirmed) {
-      if (context.mounted) context.read<ItemProvider>().deleteItem(item.id!);
-    }
+    if (!confirmed || !context.mounted) return;
+    final result = await context.read<ItemProvider>().deleteItem(item.id!);
+
+    scaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(
+        content: Text(result['message']),
+        backgroundColor: result['success'] ? Colors.green : Colors.redAccent,
+        duration: Duration(seconds: 3),
+      ),
+    );
   }
 
   Future<void> update(BuildContext context, model.Item item) async {
