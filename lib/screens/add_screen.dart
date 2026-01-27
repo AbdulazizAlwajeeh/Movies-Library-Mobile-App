@@ -114,14 +114,21 @@ class _AddScreenState extends State<AddScreen> {
                             description: descriptionController.text.trim(),
                           );
                           final provider = context.read<ItemProvider>();
-                          if (widget.newItem) {
-                            await provider.addItem(newOrUpdatedItem);
-                          } else {
-                            await provider.updateItem(newOrUpdatedItem);
-                          }
+                          final result = widget.newItem
+                              ? await provider.addItem(newOrUpdatedItem)
+                              : await provider.updateItem(newOrUpdatedItem);
 
                           if (context.mounted) {
-                            Navigator.pop(context);
+                            if (result['success']) Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(result['message']),
+                                backgroundColor: result['success']
+                                    ? Colors.green
+                                    : Colors.redAccent,
+                                duration: Duration(seconds: 3),
+                              ),
+                            );
                           }
                         }
                       },

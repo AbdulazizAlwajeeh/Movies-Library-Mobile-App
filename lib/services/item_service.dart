@@ -28,37 +28,66 @@ class ItemService {
     }
   }
 
-  Future<Item> createItem(Item item) async {
+  Future<Map<String, dynamic>> createItem(Item item, String token) async {
     final response = await http.post(
       Uri.parse(baseUrl),
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
       body: jsonEncode(item.toJson()),
     );
 
     if (response.statusCode == 201) {
-      return Item.fromJson(jsonDecode(response.body));
+      item = Item.fromJson(jsonDecode(response.body));
+      return {
+        'success': true,
+        'message': 'Item Created Successfully.',
+        'item': item,
+      };
+    } else if (response.statusCode == 401) {
+      return {'success': false, 'message': 'Error: Missing/Expired Token.'};
+    } else {
+      throw Exception('Network/Server Error.');
     }
-
-    throw Exception('Item Creation Failed.');
   }
 
-  Future<void> updateItem(Item item) async {
+  Future<Map<String, dynamic>> updateItem(Item item, String token) async {
     final response = await http.put(
       Uri.parse('$baseUrl/${item.id}'),
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
       body: jsonEncode(item.toJson()),
     );
 
-    if (response.statusCode != 204) {
-      throw Exception('Item Update Failed.');
+    if (response.statusCode == 200) {
+      item = Item.fromJson(jsonDecode(response.body));
+      return {
+        'success': true,
+        'message': 'Item Updated Successfully.',
+        'item': item,
+      };
+    } else if (response.statusCode == 401) {
+      return {'success': false, 'message': 'Error: Missing/Expired Token.'};
+    } else {
+      throw Exception('Network/Server Error.');
     }
   }
 
-  Future<void> deleteItem(int id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/$id'));
+  Future<Map<String, dynamic>> deleteItem(int id, String token) async {
+    final response = await http.delete(
+      Uri.parse('$baseUrl/$id'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
 
-    if (response.statusCode != 204) {
-      throw Exception('Item Deletion Failed.');
+    if (response.statusCode == 204) {
+      return {'success': true, 'message': 'Item Deleted Successfully.'};
+    } else if (response.statusCode == 401) {
+      return {'success': false, 'message': 'Error: Missing/Expired Token.'};
+    } else {
+      throw Exception('Network/Server Error.');
     }
   }
 }

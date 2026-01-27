@@ -9,6 +9,9 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -23,7 +26,10 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ItemProvider(service: ItemService()),
+          create: (_) => ItemProvider(
+            service: ItemService(),
+            loginProvider: loginProvider,
+          ),
         ),
         ChangeNotifierProvider.value(value: loginProvider),
       ],
@@ -38,6 +44,7 @@ class IMDB extends StatelessWidget {
     final loginProvider = context.watch<LoginProvider>();
 
     return MaterialApp(
+      scaffoldMessengerKey: scaffoldMessengerKey,
       debugShowCheckedModeBanner: false,
       home: loginProvider.isLoggedIn ? HomeScreen() : LoginScreen(),
     );
