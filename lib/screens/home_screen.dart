@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proj_1/screens/add_screen.dart';
 import 'package:flutter_proj_1/screens/login_screen.dart';
+import '../constants/colors.dart';
 import '../models/item.dart' as model;
 import 'package:provider/provider.dart';
 import 'package:flutter_proj_1/providers/item_provider.dart';
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             IconButton(
               icon: const Icon(Icons.login),
-              color: loginProvider.isLoggedIn ? Colors.red : Colors.green,
+              color: loginProvider.isLoggedIn ? AppColors.red : AppColors.green,
               onPressed: () {
                 !loginProvider.isLoggedIn
                     ? Navigator.push(
@@ -44,14 +45,14 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ],
-          backgroundColor: Colors.amber,
+          backgroundColor: AppColors.amber,
           title: const Text(
             'IMDB',
             style: TextStyle(fontWeight: FontWeight.w900),
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.amber,
+          backgroundColor: AppColors.amber,
           onPressed: () {
             Navigator.push(
               context,

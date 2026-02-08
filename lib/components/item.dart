@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proj_1/models/item.dart' as model;
+import '../constants/colors.dart';
 import '../use_cases/item_actions.dart';
 
 class Item extends StatelessWidget {
@@ -43,7 +44,7 @@ class Item extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red[400],
+                    backgroundColor: AppColors.red,
                     iconColor: Colors.white,
                   ),
                   onPressed: () {
@@ -59,7 +60,7 @@ class Item extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.amber,
+                    backgroundColor: AppColors.amber,
                   ),
                   onPressed: () {
                     final action = !modifiable

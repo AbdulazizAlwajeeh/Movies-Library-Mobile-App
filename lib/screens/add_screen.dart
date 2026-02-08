@@ -4,6 +4,8 @@ import 'package:flutter_proj_1/models/item.dart' as model;
 import 'package:flutter_proj_1/providers/item_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/colors.dart';
+
 class AddScreen extends StatefulWidget {
   const AddScreen({this.newItem = true, required this.item});
 
@@ -45,7 +47,7 @@ class _AddScreenState extends State<AddScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.amber,
+        backgroundColor: AppColors.amber,
         title: Text(
           widget.newItem ? 'Create' : 'Edit',
           style: TextStyle(fontWeight: FontWeight.w900),
@@ -124,8 +126,8 @@ class _AddScreenState extends State<AddScreen> {
                               SnackBar(
                                 content: Text(result['message']),
                                 backgroundColor: result['success']
-                                    ? Colors.green
-                                    : Colors.redAccent,
+                                    ? AppColors.green
+                                    : AppColors.red,
                                 duration: Duration(seconds: 3),
                               ),
                             );
@@ -133,7 +135,7 @@ class _AddScreenState extends State<AddScreen> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
+                        backgroundColor: AppColors.amber,
                       ),
                       child: Text(
                         widget.newItem ? 'Add' : 'Update',

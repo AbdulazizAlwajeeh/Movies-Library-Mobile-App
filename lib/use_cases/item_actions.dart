@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proj_1/models/item.dart' as model;
 import 'package:provider/provider.dart';
+import '../constants/colors.dart';
 import '../main.dart';
 import '../providers/item_provider.dart';
 import '../screens/add_screen.dart';
@@ -31,7 +32,7 @@ class ItemActions {
                   onPressed: () => Navigator.of(context).pop(true),
                   child: const Text(
                     'Delete',
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: AppColors.red),
                   ),
                 ),
               ],
@@ -45,7 +46,7 @@ class ItemActions {
     scaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
         content: Text(result['message']),
-        backgroundColor: result['success'] ? Colors.green : Colors.redAccent,
+        backgroundColor: result['success'] ? AppColors.green : AppColors.red,
         duration: Duration(seconds: 3),
       ),
     );

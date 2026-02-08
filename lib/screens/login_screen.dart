@@ -3,6 +3,7 @@ import 'package:flutter_proj_1/models/login_result.dart';
 import 'package:flutter_proj_1/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import '../components/my_text_field.dart';
+import '../constants/colors.dart';
 import '../providers/login_provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.amber,
+        backgroundColor: AppColors.amber,
         title: const Text('Login', style: TextStyle(fontWeight: FontWeight
             .w900)),
       ),
@@ -90,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(message),
-                                backgroundColor: Colors.redAccent,
+                                backgroundColor: AppColors.red,
                                 duration: Duration(seconds: 3),
                               ),
                             );
@@ -98,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
+                        backgroundColor: AppColors.amber,
                       ),
                       child: const Text(
                         'Login',

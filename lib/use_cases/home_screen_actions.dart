@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/item.dart';
+import '../constants/colors.dart';
 import '../providers/item_provider.dart';
 import '../providers/login_provider.dart';
 import '../screens/login_screen.dart';
@@ -39,7 +40,7 @@ Widget generateBody(
             onPressed: () {
               context.read<ItemProvider>().fetchItems();
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.amber),
             child: const Text(
               'Refresh',
               style: TextStyle(
@@ -101,7 +102,7 @@ Future<void> handleDialog(
                 onPressed: () => Navigator.of(context).pop(true),
                 child: const Text(
                   'Logout',
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: AppColors.red),
                 ),
               ),
             ],
