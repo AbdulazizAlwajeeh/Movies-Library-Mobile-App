@@ -16,7 +16,7 @@ class Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       color: Colors.white,
       child: Column(
         children: [
@@ -28,13 +28,13 @@ class Item extends StatelessWidget {
           ),
           Text(
             item.title,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           Text(
             item.description,
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
@@ -55,7 +55,7 @@ class Item extends StatelessWidget {
                   child: const Icon(Icons.delete_forever),
                 ),
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(

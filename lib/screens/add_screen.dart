@@ -55,7 +55,7 @@ class _AddScreenState extends State<AddScreen> {
         children: [
           SafeArea(
             child: Padding(
-              padding: EdgeInsetsGeometry.all(15),
+              padding: const EdgeInsetsGeometry.all(15),
               child: Form(
                 key: formKey,
                 child: Column(

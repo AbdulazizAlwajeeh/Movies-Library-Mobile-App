@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: RefreshIndicator(
               onRefresh: () async {
                 await context.read<ItemProvider>().fetchItems();

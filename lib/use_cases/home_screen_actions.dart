@@ -40,7 +40,7 @@ Widget generateBody(
               context.read<ItemProvider>().fetchItems();
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-            child: Text(
+            child: const Text(
               'Refresh',
               style: TextStyle(
                 fontWeight: FontWeight.w900,

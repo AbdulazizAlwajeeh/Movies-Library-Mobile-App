@@ -2,7 +2,7 @@ class Token {
   final String token;
   final DateTime expiration;
 
-  Token({required this.token, required this.expiration});
+  const Token({required this.token, required this.expiration});
 
   factory Token.fromJson(Map<String, dynamic> json) {
     return Token(

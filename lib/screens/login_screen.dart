@@ -24,13 +24,14 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.amber,
-        title: Text('Login', style: TextStyle(fontWeight: FontWeight.w900)),
+        title: const Text('Login', style: TextStyle(fontWeight: FontWeight
+            .w900)),
       ),
       body: Stack(
         children: [
           SafeArea(
             child: Padding(
-              padding: EdgeInsetsGeometry.all(15),
+              padding: const EdgeInsetsGeometry.all(15),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -99,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,
                       ),
-                      child: Text(
+                      child: const Text(
                         'Login',
                         style: TextStyle(
                           fontWeight: FontWeight.w900,
@@ -117,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                       ),
-                      child: Text(
+                      child: const Text(
                         'Continue as Guest',
                         style: TextStyle(
                           fontWeight: FontWeight.w900,

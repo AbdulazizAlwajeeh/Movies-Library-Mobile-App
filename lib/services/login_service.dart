@@ -26,14 +26,14 @@ class LoginService {
     if (response.statusCode == 200) {
       final token = Token.fromJson(jsonDecode(response.body));
       await _box.put('token', token.toJson());
-      return LoginResult(status: LoginStatus.success);
+      return const LoginResult(status: LoginStatus.success);
     }
 
     if (response.statusCode == 401) {
       return const LoginResult(status: LoginStatus.invalidCredentials);
     }
 
-    return LoginResult(status: LoginStatus.serverError);
+    return const LoginResult(status: LoginStatus.serverError);
   }
 
   Token? getStoredToken() {

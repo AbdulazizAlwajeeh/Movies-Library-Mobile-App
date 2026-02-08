@@ -20,7 +20,7 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsGeometry.only(bottom: 7),
+      padding: const EdgeInsetsGeometry.only(bottom: 7),
       child: TextFormField(
         onChanged: onChanged,
         obscureText: obscureText,
@@ -36,11 +36,11 @@ class MyTextField extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
-            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderSide: const BorderSide(color: Colors.blue, width: 2),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
-            borderSide: BorderSide(color: Colors.grey, width: 1),
+            borderSide: const BorderSide(color: Colors.grey, width: 1),
           ),
         ),
       ),

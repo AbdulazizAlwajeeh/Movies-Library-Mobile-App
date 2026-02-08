@@ -46,7 +46,8 @@ class ItemService {
         'item': item,
       };
     } else if (response.statusCode == 401) {
-      return {'success': false, 'message': 'Error: Missing/Expired Token.'};
+      return const {'success': false, 'message': 'Error: Missing/Expired Token'
+          '.'};
     } else {
       throw Exception('Network/Server Error.');
     }
@@ -70,7 +71,8 @@ class ItemService {
         'item': item,
       };
     } else if (response.statusCode == 401) {
-      return {'success': false, 'message': 'Error: Missing/Expired Token.'};
+      return const {'success': false, 'message': 'Error: Missing/Expired Token'
+          '.'};
     } else {
       throw Exception('Network/Server Error.');
     }
@@ -83,9 +85,10 @@ class ItemService {
     );
 
     if (response.statusCode == 204) {
-      return {'success': true, 'message': 'Item Deleted Successfully.'};
+      return const {'success': true, 'message': 'Item Deleted Successfully.'};
     } else if (response.statusCode == 401) {
-      return {'success': false, 'message': 'Error: Missing/Expired Token.'};
+      return const {'success': false, 'message': 'Error: Missing/Expired Token'
+          '.'};
     } else {
       throw Exception('Network/Server Error.');
     }
