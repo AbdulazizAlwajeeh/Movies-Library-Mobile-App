@@ -54,9 +54,13 @@ Widget generateBody(
   } else {
     const itemActions = ItemActions();
     return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 1 / 2,
-        crossAxisCount: 2,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio:
+            MediaQuery.of(context).orientation == Orientation.landscape
+            ? 2 / 3
+            : 1 / 2,
+        crossAxisCount:
+            MediaQuery.of(context).orientation == Orientation.landscape ? 4 : 2,
         crossAxisSpacing: 8.0,
         mainAxisSpacing: 8.0,
       ),

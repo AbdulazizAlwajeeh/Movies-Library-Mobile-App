@@ -16,16 +16,15 @@ class Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
       padding: EdgeInsets.all(10),
       color: Colors.white,
       child: Column(
         children: [
-          Image.network(
-            item.image,
-            height: 185,
-            width: double.infinity,
-            fit: BoxFit.contain,
+          Expanded(
+            child: Image.network(
+              item.image,
+              fit: BoxFit.contain,
+            ),
           ),
           Text(
             item.title,
